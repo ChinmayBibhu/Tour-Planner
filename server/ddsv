@@ -1,0 +1,187 @@
+ACESS_KEY = AKIAS6GQJLB2DJXDFLQZ
+ACCESS_SECRET = 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
+REGION = ap-south-2
+BUCKET = postulate-dev
+EMAIL_FROM = dev522003@gmail.com
+
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
+const path = require('path');
+const bodyParser = require('body-parser');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
+const { Mongoose } = require('mongoose');
+const User = require('./models/user.model');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const Post = require('./models/post.model');
+const nodemailer = require('nodemailer');
+const os = require('os');
+require('dotenv').config();
+
+const hostname = os.hostname();
+
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
+
+// Serve static files from the build directory
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.urlencoded({ extended: false }));
+
+// Set up AWS S3 configuration
+const s3Client = new S3Client({
+  region: process.env.REGION,
+  credentials: {
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.ACCESS_SECRET,
+  },
+});
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+});
+
+// Set up AWS SES configuration
+const sesClient = new SESClient({
+  region: process.env.REGION,
+  credentials: {
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.ACCESS_SECRET,
+  },
+});
+
+// Set up Mongoose
+const mongoose = new Mongoose();
+mongoose.connect('mongodb+srv://dev52:root@cluster0.msyyjkw.mongodb.net/postulate', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Add authentication middleware
+const authenticateUser = (req, res, next) => {
+  const token = req.headers['x-access-token'];
+  if (!token) {
+    return res.status(401).json({ message: 'Token not provided' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, 'abc123');
+    const email = decoded.email;
+    User.findOne({ email: email })
+      .then((user) => {
+        if (!user) {
+          return res.status(401).json({ message: 'Invalid token' });
+        }
+
+        req.user = user;
+        next();
+      })
+      .catch((error) => {
+        console.error('Error finding user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      });
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+app.post('/register', async (req, res) => {
+  try {
+    const newPassword = await bcrypt.hash(req.body.password, 10);
+    await User.create({
+      email: req.body.email,
+      password: newPassword,
+    });
+    res.json({ status: 'ok' });
+  } catch (err) {
+    res.json({ status: 'error', error: 'Duplicate email' });
+  }
+});
+
+app.post('/login', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.json({ status: 'error', error: 'Invalid email/password' });
+  }
+
+  if (await bcrypt.compare(req.body.password, user.password)) {
+    const token = jwt.sign({ email: user.email }, 'abc123');
+    return res.json({ status: 'ok', data: token });
+  }
+
+  res.json({ status: 'error', error: 'Invalid email/password' });
+});
+
+app.get('/protected', authenticateUser, (req, res) => {
+  res.json({ status: 'ok', data: 'Protected data' });
+});
+
+app.post('/upload', upload.single('file'), async (req, res) => {
+  const file = req.file;
+
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: `${uuidv4()}-${file.originalname}`,
+    Body: file.buffer,
+    ACL: 'public-read',
+  };
+
+  try {
+    const data = await s3Client.send(new PutObjectCommand(params));
+    res.json({ status: 'ok', data: data });
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/send-email', async (req, res) => {
+  const { email, subject, message } = req.body;
+
+  const params = {
+    Source: process.env.EMAIL_FROM,
+    Destination: {
+      ToAddresses: [email],
+    },
+    Message: {
+      Subject: {
+        Data: subject,
+      },
+      Body: {
+        Text: {
+          Data: message,
+        },
+      },
+    },
+  };
+
+  try {
+    const data = await sesClient.send(new SendEmailCommand(params));
+    res.json({ status: 'ok', data: data });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get('/posts', (req, res) => {
+  Post.find()
+    .then((posts) => res.json({ status: 'ok', data: posts }))
+    .catch((error) => {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    });
+});
+
+app.listen(80, () => {
+  console.log(`Server started on port 80`);
+  console.log(`${hostname}`)
+});
+

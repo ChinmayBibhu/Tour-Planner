@@ -1,0 +1,69 @@
+.crd {
+    margin: 0px 0px 18px 0px;
+    color: gray;
+    font-size: large;
+    position: relative; /* Add position property */
+  }
+  .labelnone{
+    height: 5em;
+  }
+  .dbtn {
+    background: none;
+    border: none;
+    position: absolute;
+    bottom: 10px; 
+    color: red;
+  }
+  .post-card {
+    padding: 30px 45px;
+    background: #ffffff;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    overflow: hidden;
+  }
+  
+  .post-card:hover {
+    opacity: 1;
+  }
+  
+  .post-card > * {
+    margin-bottom: 10px;
+  }
+  
+  .post-card h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .post-card p {
+    margin: 0;
+  }
+  
+  .post-card-content {
+    overflow: hidden;
+    max-height: 100px;
+    transition: max-height 0.3s;
+  }
+  
+  .post-card-expanded {
+    max-height: none;
+  }
+  .middlesec{
+    height: auto;
+  }
+  .post-card-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  .imgnone{
+    height: 5em;
+    margin-bottom: 2em;
+    margin-top: 2em;
+  }
+    

@@ -1,0 +1,43 @@
+.nl{
+    color:#000000;
+	padding:8px 12px 6px 12px;
+	text-decoration-line:initial;
+	display:flex;
+	font:30px/30px --fontFamily-googleTeko;
+    font-family: 'Diphylleia', serif;
+    font-family: 'Teko', sans-serif;
+	/* hover-color:--lightD2; */
+	transition:background-color 0.1s ease 0s;
+}
+.nl1{
+    color: aliceblue;
+    padding:8px 12px 6px 12px;
+	text-decoration-line:initial;
+}
+Link{
+    text-decoration-line:initial;
+    text-decoration: none;
+}
+.nl:hover,.nl1:hover{
+    color: gray;
+}
+.navbtn{
+    color:white;
+	padding:6px 12px 6px 12px;
+	margin-left:0.4em;
+	text-decoration-line:initial;
+	display:flex;
+	font-size:25px;
+    font-family: 'Diphylleia', serif;
+    font-family: 'Teko', sans-serif;
+	transition:background-color 0.1s ease 0s;
+	background:#3468d3;
+	border-style:solid;
+    border-width:2px;
+}
+.navbtn:hover{
+    color: #898c96;
+}
+.cl{
+	text-decoration: none;
+}

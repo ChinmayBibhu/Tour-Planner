@@ -1,0 +1,38 @@
+{
+  "name": "theme",
+  "version": "0.1.0",
+  "description": "a smart theme loader for CMS systems",
+  "main": "dist/theme.js",
+  "scripts": {
+    "build": "node_modules/.bin/babel libs --out-dir dist --source-maps --watch",
+    "test": "node_modules/mocha/bin/mocha tests/*.js --require tests/babelhook"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:turingou/theme.git"
+  },
+  "keywords": [
+    "theme",
+    "middleware",
+    "koa",
+    "express"
+  ],
+  "author": "turing <o.u.turing@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/turingou/theme/issues"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "pkghub": "0.1.2",
+    "pkghub-render": "0.1.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel": "^5.8.3",
+    "jade": "^1.11.0",
+    "mocha": "^2.0.1",
+    "should": "^4.1.0",
+    "theme-theme-lily": "0.1.0"
+  }
+}

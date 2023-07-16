@@ -1,0 +1,167 @@
+.ripple-btn {
+    position: relative;
+    margin-top: 2em;
+    margin-left: 0.2em;
+    font-size: 1.5rem;
+    font-family: 'Diphylleia', serif;
+    font-family: 'Teko', sans-serif;
+    border-radius: 100vmax;
+    background-color: black;
+    color: aliceblue;
+    text-transform: uppercase;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .ripple-btn .ripple {
+    position: absolute;
+    background: linear-gradient(rgb(51, 158, 230), rgb(209, 68, 68));
+    border-radius: 50%;
+    transform: scale(0);
+    animation: rippleEffect 1s linear;
+  }
+  
+  @keyframes rippleEffect {
+    to {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+label{
+    font-family: 'Diphylleia', serif;
+    font-family: 'Teko', sans-serif;
+}
+.head1{
+    font-size: 4em;
+    font-weight: 900;
+}
+.mail,.pass{
+    font-size: 1.5em;
+    margin-bottom: 0.2em;
+}
+.mailin{
+    margin-bottom: 1em;
+}
+input{
+    font-size: 1.5em;
+    opacity: 1;
+}
+input:hover{
+    opacity: 1;
+}
+.frmbox .head1,.frmbox .lnk,.frmbox .err,.frmbox .reset,.frmbox .err1,.frmbox .mailnk{
+    text-align: center;
+}
+.frmbox{
+    opacity: 0.5;
+    background-color: white;
+}
+.frmbox:hover{
+    opacity: unset;
+}
+.mailin,.passe{
+    opacity: 50%;
+    background: transparent;
+    border-style: solid;
+    border-bottom: 2px solid black;
+    border-top: 0px none;
+    border-left: 0px none;
+    border-right: 0px none;
+    font-size: 20px;
+}
+.passe{
+    width: 30em;
+}
+.mailin:focus,.passe:focus{
+    outline: none;
+}
+.toggle-password {
+	margin-top: 0.5em;
+	font-size: 1rem;
+}
+.visible-icon{
+    cursor: pointer;
+}
+.passcon{
+    display:flex;
+}
+.frmbox .lnk{
+    font-size: 1.5em;
+    margin-top: 1em;
+}
+.frmbox .lnk .reglnk{
+    text-decoration: none;
+    cursor: pointer;
+}
+.nl{
+    color:#000000;
+	padding:8px 12px 6px 12px;
+	text-decoration-line:initial;
+	display:flex;
+	font:30px/30px --fontFamily-googleTeko;
+    font-family: 'Diphylleia', serif;
+    font-family: 'Teko', sans-serif;
+	/* hover-color:--lightD2; */
+	transition:background-color 0.1s ease 0s;
+}
+.nl1{
+    color: aliceblue;
+    padding:8px 12px 6px 12px;
+	text-decoration-line:initial;
+}
+Link{
+    text-decoration-line:initial;
+    text-decoration: none;
+}
+.reglnk:visited{
+    color: blue;
+}
+.nl:hover,.nl1:hover{
+    color: gray;
+}
+.navbtn{
+    color:white;
+	padding:6px 12px 6px 12px;
+	margin-left:0.4em;
+	text-decoration-line:initial;
+	display:flex;
+	font-size:25px;
+    font-family: 'Diphylleia', serif;
+    font-family: 'Teko', sans-serif;
+	transition:background-color 0.1s ease 0s;
+	background:#3468d3;
+	border-style:solid;
+    border-width:2px;
+}
+.navbtn:hover{
+    color: #898c96;
+}
+.err{
+    margin-top: 1.5em;
+    margin-bottom: -1.5em;
+    font-size: 1.4em;
+    font-weight: 100;
+    background-color: rgb(231, 93, 93);
+    border-radius: 0.2em;
+    display: none;
+}
+.frmbox .reset{
+    color: blue;
+    margin-top: 0em;
+}
+.reset:visited{
+    color: blue;
+}
+.mailnk,.err1{
+    padding: 0.5em;
+    font-size: 1.2em;
+    border-radius: 0.5em;
+}
+.mailnk{
+    background-color: rgb(105, 231, 105);
+    display: none;
+}
+.err1{
+    background-color: rgb(238, 93, 88);
+    display: none;
+}

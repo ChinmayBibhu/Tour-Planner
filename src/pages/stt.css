@@ -1,0 +1,53 @@
+.l1{
+  font-size: 2em;
+  margin-right: 0.5em;
+}
+.btn {
+  position: relative;
+  margin-top: 1em;
+  font-size: 1.5rem;
+  font-family: 'Diphylleia', serif;
+  font-family: 'Teko', sans-serif;
+  border-radius: 100vmax;
+  background-color: black;
+  color: aliceblue;
+  text-transform: uppercase;
+  overflow: hidden;
+  cursor: pointer;
+  width: 10em;
+  margin-bottom: 1em;
+}
+.sec2{
+  justify-content: center;
+}
+.box1{
+  justify-self: center;
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-buttons {
+  margin-left: 2em;
+}
+.task-item .task-content::before {
+  font-weight: bold;
+  font-size: 1.5em ;
+  content: attr(data-index) ". ";
+}
+.task-content{
+  font-size: 1.5em;
+}
+.upd{
+  margin-right:10px;
+}
+.del{
+  color: red;
+}
